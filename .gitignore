@@ -1,0 +1,26 @@
+# Build directories
+/target/
+/build/
+target/
+
+# Compiled class files
+*.class
+
+# IntelliJ IDEA project files
+#/.idea/
+/*.iml
+
+# Log files
+*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Package files
+*.jar
+*.war
+*.ear
+
+# Test results
+/test-output/
