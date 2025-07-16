@@ -7,7 +7,7 @@ target/
 *.class
 
 # IntelliJ IDEA project files
-#/.idea/
+/.idea/
 /*.iml
 
 # Log files
