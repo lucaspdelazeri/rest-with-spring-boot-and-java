@@ -1,66 +1,67 @@
 package br.com.lpd.services;
 
+import br.com.lpd.data.dto.PersonDTO;
 import br.com.lpd.exception.ResourceNotFoundException;
+import br.com.lpd.mapper.PersonMapper;
 import br.com.lpd.model.Person;
 import br.com.lpd.repository.PersonRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 @Service
 public class PersonService {
 
-    private Logger logger = Logger.getLogger(PersonService.class.getName());
+    private Logger logger = LoggerFactory.getLogger(PersonService.class);
 
     @Autowired
     PersonRepository repository;
 
-    public List<Person> findAll() {
+    public List<PersonDTO> findAll() {
         logger.info("Finding all Peoples");
-        return repository.findAll();
+        return PersonMapper.INSTANCE.toPersonDTOList(repository.findAll());
     }
 
-    public Person findById(long id) {
-        logger.info("Finding a Person by id: #" + id);
-        return repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Not Found Person for id: " + id));
+    public PersonDTO findById(long id) {
+        logger.info("Finding a Person by id: #{}", id);
+        Person entity = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Not Found Person for id: #" + id));
+
+        return PersonMapper.INSTANCE.toPersonDTO(entity);
     }
 
-    public Person update(Person person, long id) {
-        logger.info("Updating a Person: " + person);
+    public PersonDTO update(PersonDTO person, long id) {
+        logger.info("Updating a Person: {}", person);
 
-        Person entity = findById(id);
-        entity.setAddress(person.getAddress());
-        entity.setGender(person.getGender());
-        entity.setFirstName(person.getFirstName());
-        entity.setLastName(person.getLastName());
+        Person entity = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Not Found Person for id: #" + id));
 
-        return repository.save(entity);
+        if (!entity.getId().equals(person.getId()))
+            throw new IllegalArgumentException("Don't can modify id of Person");
+
+        return PersonMapper.INSTANCE.toPersonDTO(repository.save(entity));
     }
 
-    public Person save(Person person) {
-        logger.info("Creating a person" + person);
+    public PersonDTO save(PersonDTO person) {
+        logger.info("Creating a person{}", person);
 
-        Person entity = null;
+        if( person.getId() != null && repository.findById(person.getId()).isPresent() )
+            throw new IllegalArgumentException("Person already exists for id: #" + person.getId());
 
-        if(person.getId() != null) {
-            entity = findById(person.getId());
-        }
-
-        if( entity == null ) {
-            return repository.save(person);
-        }
-        else  {
-            throw new IllegalArgumentException("Person already exists!");
-        }
+        return PersonMapper.INSTANCE.toPersonDTO(
+                repository.save(
+                        PersonMapper.INSTANCE.toPerson(person)
+                )
+        );
     }
 
     public void delete(long id) {
-        logger.info("Deleting a person by id: #" + id);
+        logger.info("Deleting a person by id: #{}", id);
 
-        Person entity = findById(id);
+        PersonDTO entity = findById(id);
         repository.deleteById(entity.getId());
     }
 }

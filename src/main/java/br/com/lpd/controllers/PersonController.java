@@ -1,6 +1,6 @@
 package br.com.lpd.controllers;
 
-import br.com.lpd.model.Person;
+import br.com.lpd.data.dto.PersonDTO;
 import br.com.lpd.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,12 +21,12 @@ public class PersonController {
             path = "/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<Person> getPerson(@PathVariable("id") long id) {
+    public ResponseEntity<PersonDTO> getPerson(@PathVariable("id") long id) {
         return ResponseEntity.ok(personService.findById(id));
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Person>> getAllPersons() {
+    public ResponseEntity<List<PersonDTO>> getAllPersons() {
         return ResponseEntity.ok(personService.findAll());
     }
 
@@ -34,7 +34,7 @@ public class PersonController {
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<Person> addPerson(@RequestBody Person person) {
+    public ResponseEntity<PersonDTO> addPerson(@RequestBody PersonDTO person) {
         return ResponseEntity.status(HttpStatus.CREATED).body(personService.save(person));
     }
 
@@ -42,7 +42,7 @@ public class PersonController {
             path = "/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<Person> updatePerson(@RequestBody Person person, @PathVariable("id") long id) {
+    public ResponseEntity<PersonDTO> updatePerson(@RequestBody PersonDTO person, @PathVariable("id") long id) {
         return ResponseEntity.ok(personService.update(person, id));
     }
 

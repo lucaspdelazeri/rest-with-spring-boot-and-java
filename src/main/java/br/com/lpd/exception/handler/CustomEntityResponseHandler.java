@@ -3,7 +3,6 @@ package br.com.lpd.exception.handler;
 import br.com.lpd.exception.ExceptionResponse;
 import br.com.lpd.exception.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
