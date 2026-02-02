@@ -1,4 +1,4 @@
-package br.com.lpd.data.dto;
+package br.com.lpd.dto;
 
 import java.io.Serializable;
 import java.util.Objects;

@@ -1,8 +1,6 @@
 package br.com.lpd.services;
 
-import br.com.lpd.data.dto.PersonDTO;
 import br.com.lpd.exception.ResourceNotFoundException;
-import br.com.lpd.mapper.PersonMapper;
 import br.com.lpd.model.Person;
 import br.com.lpd.repository.PersonRepository;
 import org.slf4j.Logger;
@@ -20,20 +18,19 @@ public class PersonService {
     @Autowired
     PersonRepository repository;
 
-    public List<PersonDTO> findAll() {
+    public List<Person> findAll() {
         logger.info("Finding all Peoples");
-        return PersonMapper.INSTANCE.toPersonDTOList(repository.findAll());
+        return repository.findAll();
     }
 
-    public PersonDTO findById(long id) {
+    public Person findById(long id) {
         logger.info("Finding a Person by id: #{}", id);
-        Person entity = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Not Found Person for id: #" + id));
 
-        return PersonMapper.INSTANCE.toPersonDTO(entity);
+        return repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Not Found Person for id: #" + id));
     }
 
-    public PersonDTO update(PersonDTO person, long id) {
+    public Person update(Person person, long id) {
         logger.info("Updating a Person: {}", person);
 
         Person entity = repository.findById(id)
@@ -42,26 +39,18 @@ public class PersonService {
         if (!entity.getId().equals(person.getId()))
             throw new IllegalArgumentException("Don't can modify id of Person");
 
-        return PersonMapper.INSTANCE.toPersonDTO(repository.save(entity));
+        return repository.save(entity);
     }
 
-    public PersonDTO save(PersonDTO person) {
+    public Person save(Person person) {
         logger.info("Creating a person{}", person);
-
-        if( person.getId() != null && repository.findById(person.getId()).isPresent() )
-            throw new IllegalArgumentException("Person already exists for id: #" + person.getId());
-
-        return PersonMapper.INSTANCE.toPersonDTO(
-                repository.save(
-                        PersonMapper.INSTANCE.toPerson(person)
-                )
-        );
+        person.setId(null);
+        return repository.save(person);
     }
 
     public void delete(long id) {
         logger.info("Deleting a person by id: #{}", id);
-
-        PersonDTO entity = findById(id);
-        repository.deleteById(entity.getId());
+        findById(id);
+        repository.deleteById(id);
     }
 }

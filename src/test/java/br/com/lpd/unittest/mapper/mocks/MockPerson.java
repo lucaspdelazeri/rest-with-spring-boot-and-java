@@ -1,6 +1,6 @@
 package br.com.lpd.unittest.mapper.mocks;
 
-import br.com.lpd.data.dto.PersonDTO;
+import br.com.lpd.dto.PersonDTO;
 import br.com.lpd.model.Person;
 
 import java.util.ArrayList;

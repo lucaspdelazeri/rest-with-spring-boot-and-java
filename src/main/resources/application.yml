@@ -6,6 +6,9 @@ spring:
     url: jdbc:mysql://localhost:3306/rest-with-spring-boot-java?useTimezone=true&serverTimezone=UTC
     username: root
     password: root
+  devtools:
+    restart:
+      enabled: true
   jpa:
     hibernate:
       ddl-auto: update

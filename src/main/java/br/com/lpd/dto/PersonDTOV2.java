@@ -1,32 +1,21 @@
-package br.com.lpd.model;
-
-import jakarta.persistence.*;
+package br.com.lpd.dto;
 
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
-@Entity
-@Table(name = "person")
-public class Person implements Serializable {
+public class PersonDTOV2 implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "first_name", nullable = false, length = 50)
     private String firstName;
-    @Column(name = "last_name", nullable = false, length = 50)
     private String lastName;
-    @Column(name = "birth_day")
-    private LocalDate birthDay;
-    @Column(nullable = false)
     private String address;
-    @Column(nullable = false, length = 20)
+    private LocalDate birthDay;
     private String gender;
 
-    public Person() {}
+    public PersonDTOV2() {}
 
     public Long getId() {
         return id;
@@ -60,14 +49,6 @@ public class Person implements Serializable {
         this.address = address;
     }
 
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
     public LocalDate getBirthDay() {
         return birthDay;
     }
@@ -76,19 +57,27 @@ public class Person implements Serializable {
         this.birthDay = birthDay;
     }
 
-    @Override
-    public boolean equals(Object object) {
-        if (!(object instanceof Person person)) return false;
-        return Objects.equals(id, person.id) && Objects.equals(firstName, person.firstName) && Objects.equals(lastName, person.lastName) && Objects.equals(address, person.address) && Objects.equals(gender, person.gender);
+    public String getGender() {
+        return gender;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, firstName, lastName, address, gender);
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
     @Override
     public String toString() {
         return firstName + " " + lastName;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (!(object instanceof PersonDTOV2 personDTOV2)) return false;
+        return Objects.equals(id, personDTOV2.id) && Objects.equals(firstName, personDTOV2.firstName) && Objects.equals(lastName, personDTOV2.lastName) && Objects.equals(address, personDTOV2.address) && Objects.equals(birthDay, personDTOV2.birthDay) && Objects.equals(gender, personDTOV2.gender);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, firstName, lastName, address, birthDay, gender);
     }
 }
