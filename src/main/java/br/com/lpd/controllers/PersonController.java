@@ -1,6 +1,6 @@
-package br.com.lpd.controllers.v2;
+package br.com.lpd.controllers;
 
-import br.com.lpd.dto.PersonDTOV2;
+import br.com.lpd.dto.PersonDTO;
 import br.com.lpd.mapper.PersonMapper;
 import br.com.lpd.model.Person;
 import br.com.lpd.services.PersonService;
@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController(value = "personControllerV2")
-@RequestMapping("/v2/person")
+@RestController
+@RequestMapping("/person")
 public class PersonController {
 
     @Autowired
@@ -23,14 +23,14 @@ public class PersonController {
             path = "/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<PersonDTOV2> getPerson(@PathVariable("id") long id) {
-        PersonDTOV2 dto = PersonMapper.INSTANCE.toPersonDTOV2(personService.findById(id));
+    public ResponseEntity<PersonDTO> getPerson(@PathVariable("id") long id) {
+        PersonDTO dto = PersonMapper.INSTANCE.toPersonDTO(personService.findById(id));
         return ResponseEntity.ok(dto);
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<PersonDTOV2>> getAllPersons() {
-        List<PersonDTOV2> dtos = PersonMapper.INSTANCE.toPersonDTOListV2(personService.findAll());
+    public ResponseEntity<List<PersonDTO>> getAllPersons() {
+        List<PersonDTO> dtos = PersonMapper.INSTANCE.toPersonDTOList(personService.findAll());
         return ResponseEntity.ok(dtos);
     }
 
@@ -38,9 +38,9 @@ public class PersonController {
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<PersonDTOV2> addPerson(@RequestBody PersonDTOV2 dto) {
-        Person person = PersonMapper.INSTANCE.toPersonV2(dto);
-        PersonDTOV2 saved = PersonMapper.INSTANCE.toPersonDTOV2(personService.save(person));
+    public ResponseEntity<PersonDTO> addPerson(@RequestBody PersonDTO dto) {
+        Person person = PersonMapper.INSTANCE.toPerson(dto);
+        PersonDTO saved = PersonMapper.INSTANCE.toPersonDTO(personService.save(person));
         return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
 
@@ -48,9 +48,9 @@ public class PersonController {
             path = "/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<PersonDTOV2> updatePerson(@RequestBody PersonDTOV2 dto, @PathVariable("id") long id) {
-        Person person = PersonMapper.INSTANCE.toPersonV2(dto);
-        PersonDTOV2 updated = PersonMapper.INSTANCE.toPersonDTOV2(personService.update(person, id));
+    public ResponseEntity<PersonDTO> updatePerson(@RequestBody PersonDTO dto, @PathVariable("id") long id) {
+        Person person = PersonMapper.INSTANCE.toPerson(dto);
+        PersonDTO updated = PersonMapper.INSTANCE.toPersonDTO(personService.update(person, id));
         return ResponseEntity.ok(updated);
     }
 

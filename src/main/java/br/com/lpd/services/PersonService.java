@@ -13,10 +13,10 @@ import java.util.List;
 @Service
 public class PersonService {
 
-    private Logger logger = LoggerFactory.getLogger(PersonService.class);
+    private final Logger logger = LoggerFactory.getLogger(PersonService.class);
 
     @Autowired
-    PersonRepository repository;
+    private PersonRepository repository;
 
     public List<Person> findAll() {
         logger.info("Finding all Peoples");
@@ -43,7 +43,7 @@ public class PersonService {
     }
 
     public Person save(Person person) {
-        logger.info("Creating a person{}", person);
+        logger.info("Creating a person: {}", person);
         person.setId(null);
         return repository.save(person);
     }

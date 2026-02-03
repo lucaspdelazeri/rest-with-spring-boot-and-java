@@ -8,7 +8,9 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "person")
-public class Person implements Serializable {
+public class Person
+        implements
+            Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -24,7 +26,7 @@ public class Person implements Serializable {
     @Column(nullable = false)
     private String address;
     @Column(nullable = false, length = 20)
-    private String gender;
+    private Gender gender;
 
     public Person() {}
 
@@ -60,11 +62,11 @@ public class Person implements Serializable {
         this.address = address;
     }
 
-    public String getGender() {
+    public Gender getGender() {
         return gender;
     }
 
-    public void setGender(String gender) {
+    public void setGender(Gender gender) {
         this.gender = gender;
     }
 

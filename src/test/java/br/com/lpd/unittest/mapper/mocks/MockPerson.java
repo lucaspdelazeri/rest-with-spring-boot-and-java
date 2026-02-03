@@ -1,6 +1,7 @@
 package br.com.lpd.unittest.mapper.mocks;
 
 import br.com.lpd.dto.PersonDTO;
+import br.com.lpd.model.Gender;
 import br.com.lpd.model.Person;
 
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ public class MockPerson {
         Person person = new Person();
         person.setAddress("Address Test" + number);
         person.setFirstName("First Name Test" + number);
-        person.setGender(((number % 2)==0) ? "Male" : "Female");
+        person.setGender(Gender.MALE);
         person.setId(number.longValue());
         person.setLastName("Last Name Test" + number);
         return person;
@@ -46,7 +47,7 @@ public class MockPerson {
         PersonDTO person = new PersonDTO();
         person.setAddress("Address Test" + number);
         person.setFirstName("First Name Test" + number);
-        person.setGender(((number % 2)==0) ? "Male" : "Female");
+        person.setGender(Gender.MALE);
         person.setId(number.longValue());
         person.setLastName("Last Name Test" + number);
         return person;

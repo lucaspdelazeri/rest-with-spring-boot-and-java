@@ -1,9 +1,17 @@
 package br.com.lpd.dto;
 
+import br.com.lpd.model.Gender;
+import br.com.lpd.serializer.GenderSerializer;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Objects;
 
-public class PersonDTO implements Serializable {
+public class PersonDTO
+        implements
+            Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -11,7 +19,10 @@ public class PersonDTO implements Serializable {
     private String firstName;
     private String lastName;
     private String address;
-    private String gender;
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private LocalDate birthDay;
+    @JsonSerialize(using = GenderSerializer.class)
+    private Gender gender;
 
     public PersonDTO() {}
 
@@ -47,27 +58,35 @@ public class PersonDTO implements Serializable {
         this.address = address;
     }
 
-    public String getGender() {
+    public LocalDate getBirthDay() {
+        return birthDay;
+    }
+
+    public void setBirthDay(LocalDate birthDay) {
+        this.birthDay = birthDay;
+    }
+
+    public Gender getGender() {
         return gender;
     }
 
-    public void setGender(String gender) {
+    public void setGender(Gender gender) {
         this.gender = gender;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        if (!(object instanceof PersonDTO person)) return false;
-        return Objects.equals(id, person.id) && Objects.equals(firstName, person.firstName) && Objects.equals(lastName, person.lastName) && Objects.equals(address, person.address) && Objects.equals(gender, person.gender);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, firstName, lastName, address, gender);
     }
 
     @Override
     public String toString() {
         return firstName + " " + lastName;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (!(object instanceof PersonDTO personDTO)) return false;
+        return Objects.equals(id, personDTO.id) && Objects.equals(firstName, personDTO.firstName) && Objects.equals(lastName, personDTO.lastName) && Objects.equals(address, personDTO.address) && Objects.equals(birthDay, personDTO.birthDay) && gender == personDTO.gender;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, firstName, lastName, address, birthDay, gender);
     }
 }
