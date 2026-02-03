@@ -1,4 +1,4 @@
-package br.com.lpd.serializer;
+package br.com.lpd.serialization.serializer;
 
 import br.com.lpd.model.Gender;
 import com.fasterxml.jackson.core.JsonGenerator;

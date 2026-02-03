@@ -8,4 +8,4 @@ VALUES      ('Lucas',
              'Delazeri',
              NULL,
              'Esperanto',
-             'Masculino');
+             1);

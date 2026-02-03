@@ -21,22 +21,38 @@ public class PersonController {
 
     @GetMapping(
             path = "/{id}",
-            produces = MediaType.APPLICATION_JSON_VALUE
-    )
+            produces = {
+                    MediaType.APPLICATION_JSON_VALUE,
+                    MediaType.APPLICATION_XML_VALUE,
+                    MediaType.APPLICATION_YAML_VALUE
+            }    )
     public ResponseEntity<PersonDTO> getPerson(@PathVariable("id") long id) {
         PersonDTO dto = PersonMapper.INSTANCE.toPersonDTO(personService.findById(id));
         return ResponseEntity.ok(dto);
     }
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(
+            produces = {
+                    MediaType.APPLICATION_JSON_VALUE,
+                    MediaType.APPLICATION_XML_VALUE,
+                    MediaType.APPLICATION_YAML_VALUE
+            }    )
     public ResponseEntity<List<PersonDTO>> getAllPersons() {
         List<PersonDTO> dtos = PersonMapper.INSTANCE.toPersonDTOList(personService.findAll());
         return ResponseEntity.ok(dtos);
     }
 
     @PostMapping(
-            produces = MediaType.APPLICATION_JSON_VALUE,
-            consumes = MediaType.APPLICATION_JSON_VALUE
+            produces = {
+                    MediaType.APPLICATION_JSON_VALUE,
+                    MediaType.APPLICATION_XML_VALUE,
+                    MediaType.APPLICATION_YAML_VALUE
+            },
+            consumes = {
+                    MediaType.APPLICATION_JSON_VALUE,
+                    MediaType.APPLICATION_XML_VALUE,
+                    MediaType.APPLICATION_YAML_VALUE
+            }
     )
     public ResponseEntity<PersonDTO> addPerson(@RequestBody PersonDTO dto) {
         Person person = PersonMapper.INSTANCE.toPerson(dto);
@@ -46,7 +62,16 @@ public class PersonController {
 
     @PutMapping(
             path = "/{id}",
-            produces = MediaType.APPLICATION_JSON_VALUE
+            produces = {
+                    MediaType.APPLICATION_JSON_VALUE,
+                    MediaType.APPLICATION_XML_VALUE,
+                    MediaType.APPLICATION_YAML_VALUE
+            },
+            consumes = {
+                    MediaType.APPLICATION_JSON_VALUE,
+                    MediaType.APPLICATION_XML_VALUE,
+                    MediaType.APPLICATION_YAML_VALUE
+            }
     )
     public ResponseEntity<PersonDTO> updatePerson(@RequestBody PersonDTO dto, @PathVariable("id") long id) {
         Person person = PersonMapper.INSTANCE.toPerson(dto);
@@ -56,7 +81,11 @@ public class PersonController {
 
     @DeleteMapping(
             path = "/{id}",
-            produces = MediaType.APPLICATION_JSON_VALUE
+            produces = {
+                    MediaType.APPLICATION_JSON_VALUE,
+                    MediaType.APPLICATION_XML_VALUE,
+                    MediaType.APPLICATION_YAML_VALUE
+            }
     )
     public ResponseEntity<?> deletePerson(@PathVariable("id") long id) {
         personService.delete(id);

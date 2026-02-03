@@ -1,7 +1,7 @@
 package br.com.lpd.dto;
 
 import br.com.lpd.model.Gender;
-import br.com.lpd.serializer.GenderSerializer;
+import br.com.lpd.serialization.serializer.GenderSerializer;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 

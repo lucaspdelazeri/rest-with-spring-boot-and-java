@@ -36,10 +36,9 @@ public class PersonService {
         Person entity = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Not Found Person for id: #" + id));
 
-        if (!entity.getId().equals(person.getId()))
-            throw new IllegalArgumentException("Don't can modify id of Person");
+        person.setId(entity.getId());
 
-        return repository.save(entity);
+        return repository.save(person);
     }
 
     public Person save(Person person) {
