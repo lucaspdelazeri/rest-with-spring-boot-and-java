@@ -4,14 +4,17 @@ import br.com.lpd.model.Gender;
 import br.com.lpd.serialization.serializer.GenderSerializer;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import org.springframework.hateoas.RepresentationModel;
 
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
 public class PersonDTO
-        implements
-            Serializable {
+    extends
+        RepresentationModel<PersonDTO>
+            implements
+                Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -19,7 +22,7 @@ public class PersonDTO
     private String firstName;
     private String lastName;
     private String address;
-    @JsonFormat(pattern = "dd/MM/yyyy")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthDay;
     @JsonSerialize(using = GenderSerializer.class)
     private Gender gender;

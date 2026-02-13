@@ -1,6 +1,7 @@
 package br.com.lpd.controllers;
 
 import br.com.lpd.dto.PersonDTO;
+import br.com.lpd.hateoas.PersonLinkBuilder;
 import br.com.lpd.mapper.PersonMapper;
 import br.com.lpd.model.Person;
 import br.com.lpd.services.PersonService;
@@ -28,6 +29,7 @@ public class PersonController {
             }    )
     public ResponseEntity<PersonDTO> getPerson(@PathVariable("id") long id) {
         PersonDTO dto = PersonMapper.INSTANCE.toPersonDTO(personService.findById(id));
+        PersonLinkBuilder.addHateoasLinks(dto);
         return ResponseEntity.ok(dto);
     }
 
@@ -39,6 +41,7 @@ public class PersonController {
             }    )
     public ResponseEntity<List<PersonDTO>> getAllPersons() {
         List<PersonDTO> dtos = PersonMapper.INSTANCE.toPersonDTOList(personService.findAll());
+        dtos.forEach(PersonLinkBuilder::addHateoasLinks);
         return ResponseEntity.ok(dtos);
     }
 
@@ -57,6 +60,7 @@ public class PersonController {
     public ResponseEntity<PersonDTO> addPerson(@RequestBody PersonDTO dto) {
         Person person = PersonMapper.INSTANCE.toPerson(dto);
         PersonDTO saved = PersonMapper.INSTANCE.toPersonDTO(personService.save(person));
+        PersonLinkBuilder.addHateoasLinks(saved);
         return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
 
@@ -76,6 +80,7 @@ public class PersonController {
     public ResponseEntity<PersonDTO> updatePerson(@RequestBody PersonDTO dto, @PathVariable("id") long id) {
         Person person = PersonMapper.INSTANCE.toPerson(dto);
         PersonDTO updated = PersonMapper.INSTANCE.toPersonDTO(personService.update(person, id));
+        PersonLinkBuilder.addHateoasLinks(updated);
         return ResponseEntity.ok(updated);
     }
 
